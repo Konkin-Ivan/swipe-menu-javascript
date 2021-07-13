@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+  <title>HTML5</title>
+  <!--[if IE]>
+   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style>
+   article, aside, details, figcaption, figure, footer,header,
+   hgroup, menu, nav, section { display: block; }
+    .center {
+        font-size: 300%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+   .page1 {
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100vw;
+       height:100vh;
+       background-color: red;
+       z-index: 1;
+   }
+
+   .page2 {
+       display: none;
+        position: absolute;
+       top: 0;
+       left: 0;
+       width: 100vw;
+       height:100vh;
+       background-color: yellow;
+       z-index: 0;
+   }
+
+  </style>
+
+ </head>
+ <body>
+    <div class="page1" id="page1"
+        ontouchstart="p1hanleTouchStart(event)"
+        ontouchmove="p1hanleTouchMove(event)"
+        ontouchend="p1hanleTouchEnd(event)"><span class="center">page1</span></div>
+    <div class="page2" id="page2"><span class="center">page2</span></div>
+ </body>
+ <script>
+     let p1 = document.getElementById('page1');
+     let startingX;
+
+     function p1hanleTouchStart(evt) {
+        startingX = evt.touches[0].clientX;
+     };
+
+     function p1hanleTouchMove(evt) {
+        let touch = evt.touches[0];
+        let change = startingX - touch.clientX;
+        if (change < 0) {
+            return;
+        };
+
+        p1.style.left = '-' + change + 'px';
+        evt.preventDefault();
+     };
+
+     function p1hanleTouchEnd(evt) {
+        let change = startingX - evt.changedTouches[0].clientX;
+        let treshold = screen.width / 3;
+        if (change < treshold) {
+            p1.style.left = 0;
+        } else {
+            p1.style.transition ='all.3s';
+            p1.style.left = '-90%';
+        }
+     }
+ </script>
+</html>
